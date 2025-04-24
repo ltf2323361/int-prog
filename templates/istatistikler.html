@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}İstatistikler - Araç Kiralama Sistemi{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold mb-6">İstatistikler ve Raporlar</h1>
+        
+        <!-- Özet Kartları -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-blue-50 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold text-blue-800">Toplam Araç</h3>
+                <p class="text-3xl font-bold text-blue-600">25</p>
+            </div>
+            <div class="bg-green-50 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold text-green-800">Aktif Kiralama</h3>
+                <p class="text-3xl font-bold text-green-600">12</p>
+            </div>
+            <div class="bg-yellow-50 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold text-yellow-800">Müsait Araç</h3>
+                <p class="text-3xl font-bold text-yellow-600">13</p>
+            </div>
+            <div class="bg-purple-50 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold text-purple-800">Aylık Gelir</h3>
+                <p class="text-3xl font-bold text-purple-600">₺45,000</p>
+            </div>
+        </div>
+
+        <!-- Grafikler ve Tablolar -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Kiralama Grafiği -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold mb-4">Aylık Kiralama Dağılımı</h2>
+                <div class="h-64 bg-white border rounded p-4">
+                    <!-- Burada bir grafik olacak -->
+                    <div class="flex items-end h-full space-x-2">
+                        <div class="w-8 bg-blue-500 h-16"></div>
+                        <div class="w-8 bg-blue-500 h-24"></div>
+                        <div class="w-8 bg-blue-500 h-32"></div>
+                        <div class="w-8 bg-blue-500 h-20"></div>
+                        <div class="w-8 bg-blue-500 h-28"></div>
+                        <div class="w-8 bg-blue-500 h-16"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popüler Araçlar -->
+            <div class="bg-gray-50 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold mb-4">En Çok Kiralanan Araçlar</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-2">Araç</th>
+                                <th class="px-4 py-2">Kiralama Sayısı</th>
+                                <th class="px-4 py-2">Gelir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="px-4 py-2">Toyota Corolla</td>
+                                <td class="px-4 py-2">45</td>
+                                <td class="px-4 py-2">₺22,500</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Honda CR-V</td>
+                                <td class="px-4 py-2">32</td>
+                                <td class="px-4 py-2">₺22,400</td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-2">Volkswagen Golf</td>
+                                <td class="px-4 py-2">28</td>
+                                <td class="px-4 py-2">₺12,600</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detaylı Rapor -->
+        <div class="mt-8 bg-gray-50 p-6 rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Son Kiralama İşlemleri</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th class="px-4 py-2">Müşteri</th>
+                            <th class="px-4 py-2">Araç</th>
+                            <th class="px-4 py-2">Başlangıç</th>
+                            <th class="px-4 py-2">Bitiş</th>
+                            <th class="px-4 py-2">Tutar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="px-4 py-2">Ahmet Yılmaz</td>
+                            <td class="px-4 py-2">Toyota Corolla</td>
+                            <td class="px-4 py-2">2024-03-01</td>
+                            <td class="px-4 py-2">2024-03-05</td>
+                            <td class="px-4 py-2">₺2,000</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">Ayşe Demir</td>
+                            <td class="px-4 py-2">Honda CR-V</td>
+                            <td class="px-4 py-2">2024-03-02</td>
+                            <td class="px-4 py-2">2024-03-04</td>
+                            <td class="px-4 py-2">₺1,400</td>
+                        </tr>
+                        <tr>
+                            <td class="px-4 py-2">Mehmet Kaya</td>
+                            <td class="px-4 py-2">Volkswagen Golf</td>
+                            <td class="px-4 py-2">2024-03-03</td>
+                            <td class="px-4 py-2">2024-03-06</td>
+                            <td class="px-4 py-2">₺1,350</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Ana Sayfa - Araç Kiralama Sistemi{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+        <h1 class="text-3xl font-bold text-center mb-6">Araç Kiralama Sistemine Hoş Geldiniz</h1>
+        <p class="text-gray-600 text-center mb-8">
+            Güvenilir ve konforlu araç kiralama hizmeti için doğru adrestesiniz.
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-blue-50 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold mb-3">Araçlarımız</h2>
+                <p class="text-gray-600">Geniş araç filomuzdan size uygun aracı seçin.</p>
+                <a href="/araclar" class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Araçları Görüntüle</a>
+            </div>
+            
+            <div class="bg-green-50 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold mb-3">Kiralama İşlemleri</h2>
+                <p class="text-gray-600">Hızlı ve kolay kiralama işlemleri yapın.</p>
+                <a href="/kiralama" class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Kirala</a>
+            </div>
+            
+            <div class="bg-purple-50 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold mb-3">İstatistikler</h2>
+                <p class="text-gray-600">Kiralama istatistiklerini görüntüleyin.</p>
+                <a href="/istatistikler" class="mt-4 inline-block bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">İstatistikleri Gör</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Giriş ve Kayıt Kartları -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Müşteri Giriş/Kayıt -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4 text-center">Müşteri İşlemleri</h2>
+            <div class="space-y-4">
+                <a href="/giris" class="block w-full text-center bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                    Giriş Yap
+                </a>
+                <a href="/kayit" class="block w-full text-center bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+                    Kayıt Ol
+                </a>
+            </div>
+        </div>
+
+        <!-- Yönetici Giriş/Kayıt -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <h2 class="text-2xl font-bold mb-4 text-center">Yönetici İşlemleri</h2>
+            <div class="space-y-4">
+                <a href="/yonetici-giris" class="block w-full text-center bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+                    Yönetici Girişi
+                </a>
+                <a href="/yonetici-kayit" class="block w-full text-center bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700">
+                    Yönetici Kaydı
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

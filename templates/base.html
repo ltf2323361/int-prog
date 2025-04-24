@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Araç Kiralama Sistemi{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-xl font-bold">Araç Kiralama</a>
+            <div class="flex items-center space-x-6">
+                <div class="flex space-x-4">
+                    <a href="/" class="hover:text-blue-200">Ana Sayfa</a>
+                    <a href="/araclar" class="hover:text-blue-200">Araçlar</a>
+                    <a href="/kiralama" class="hover:text-blue-200">Kiralama</a>
+                    <a href="/istatistikler" class="hover:text-blue-200">İstatistikler</a>
+                </div>
+                <div class="flex items-center space-x-4 border-l pl-4">
+                    <a href="/giris" class="hover:text-blue-200">Giriş Yap</a>
+                    <a href="/kayit" class="hover:text-blue-200">Kayıt Ol</a>
+                    <a href="/yonetici-giris" class="hover:text-blue-200">Yönetici Girişi</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white p-4 mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Araç Kiralama Sistemi</p>
+        </div>
+    </footer>
+</body>
+</html> 

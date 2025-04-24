@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Araçlar - Araç Kiralama Sistemi{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold mb-6">Araçlarımız</h1>
+        
+        <!-- Filtreleme Bölümü -->
+        <div class="mb-8 bg-gray-50 p-4 rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Filtrele</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Araç Türü</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Tümü</option>
+                        <option>Sedan</option>
+                        <option>SUV</option>
+                        <option>Hatchback</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Kiralama Tarihi</label>
+                    <input type="date" class="w-full p-2 border rounded">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-2">Fiyat Aralığı</label>
+                    <select class="w-full p-2 border rounded">
+                        <option>Tümü</option>
+                        <option>0-500 TL</option>
+                        <option>500-1000 TL</option>
+                        <option>1000+ TL</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Araç Listesi -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Örnek Araç Kartı 1 -->
+            <div class="bg-white border rounded-lg overflow-hidden shadow">
+                <img src="https://via.placeholder.com/300x200" alt="Araç" class="w-full">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">Toyota Corolla</h3>
+                    <p class="text-gray-600">Sedan - 2023</p>
+                    <p class="text-green-600 font-bold mt-2">500 TL/gün</p>
+                    <div class="mt-4">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Müsait</span>
+                    </div>
+                    <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                        Kirala
+                    </button>
+                </div>
+            </div>
+
+            <!-- Örnek Araç Kartı 2 -->
+            <div class="bg-white border rounded-lg overflow-hidden shadow">
+                <img src="https://via.placeholder.com/300x200" alt="Araç" class="w-full">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">Honda CR-V</h3>
+                    <p class="text-gray-600">SUV - 2022</p>
+                    <p class="text-green-600 font-bold mt-2">700 TL/gün</p>
+                    <div class="mt-4">
+                        <span class="bg-red-100 text-red-800 px-2 py-1 rounded">Kiralandı</span>
+                    </div>
+                    <button class="mt-4 w-full bg-gray-400 text-white py-2 rounded cursor-not-allowed" disabled>
+                        Kiralandı
+                    </button>
+                </div>
+            </div>
+
+            <!-- Örnek Araç Kartı 3 -->
+            <div class="bg-white border rounded-lg overflow-hidden shadow">
+                <img src="https://via.placeholder.com/300x200" alt="Araç" class="w-full">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">Volkswagen Golf</h3>
+                    <p class="text-gray-600">Hatchback - 2023</p>
+                    <p class="text-green-600 font-bold mt-2">450 TL/gün</p>
+                    <div class="mt-4">
+                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded">Müsait</span>
+                    </div>
+                    <button class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                        Kirala
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
