@@ -38,6 +38,6 @@ python app.py
 - Araç Listesi
 - Kiralama Sayfası
 - İstatistikler Sayfası
-
+https://github.com/ltf2323361/int prog
 ## Not
 Bu proje, internet programcılığı dersi kapsamında geliştirilmiş basit bir web uygulamasıdır. Veritabanı bağlantısı olmadan çalışan bir prototip olarak tasarlanmıştır. 
