@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-lg mx-auto mt-8">
+    <div class="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-t-xl px-8 py-6 flex items-center gap-4 shadow-lg">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white drop-shadow" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13l2-2m0 0l7-7 7 7M5 11v8a2 2 0 002 2h10a2 2 0 002-2v-8m-5 4h.01" /></svg>
+        <h2 class="text-3xl font-extrabold tracking-tight">Yeni Araç Ekle</h2>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="space-y-6 bg-white p-8 rounded-b-xl shadow-xl border-t-0">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="space-y-2">
+            {% for category, message in messages %}
+                <div class="px-4 py-2 rounded text-sm font-semibold
+                    {% if category == 'success' %}bg-green-100 text-green-700 border border-green-300
+                    {% elif category == 'danger' %}bg-red-100 text-red-700 border border-red-300
+                    {% else %}bg-blue-100 text-blue-700 border border-blue-300{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <div>
+            <label class="block mb-1 font-semibold text-gray-700">Marka</label>
+            <div class="relative">
+                <span class="absolute left-3 top-2.5 text-gray-400"><i class="fa-solid fa-car"></i></span>
+                <input type="text" name="marka" required class="w-full border pl-10 pr-2 py-2 rounded focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition" placeholder="Örn: BMW">
+            </div>
+        </div>
+        <div>
+            <label class="block mb-1 font-semibold text-gray-700">Model</label>
+            <div class="relative">
+                <span class="absolute left-3 top-2.5 text-gray-400"><i class="fa-solid fa-gear"></i></span>
+                <input type="text" name="model" required class="w-full border pl-10 pr-2 py-2 rounded focus:ring-2 focus:ring-purple-400 focus:border-purple-400 transition" placeholder="Örn: 320i">
+            </div>
+        </div>
+        <div>
+            <label class="block mb-1 font-semibold text-gray-700">Fiyat (TL/gün)</label>
+            <div class="relative">
+                <span class="absolute left-3 top-2.5 text-gray-400"><i class="fa-solid fa-coins"></i></span>
+                <input type="number" name="fiyat" required min="1" class="w-full border pl-10 pr-2 py-2 rounded focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition" placeholder="Örn: 1500">
+            </div>
+        </div>
+        <div>
+            <label class="block mb-1 font-semibold text-gray-700">Araç Resmi</label>
+            <div class="relative group">
+                <span class="absolute left-3 top-2.5 text-gray-400 group-hover:text-blue-500 transition"><i class="fa-solid fa-image"></i></span>
+                <input type="file" name="resim" accept="image/*" class="w-full border pl-10 pr-2 py-2 rounded focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition file:cursor-pointer">
+            </div>
+        </div>
+        <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 rounded-lg font-bold text-lg shadow hover:scale-105 transition-transform flex items-center justify-center gap-2">
+            <i class="fa-solid fa-plus"></i> Ekle
+        </button>
+    </form>
+</div>
+{% endblock %}

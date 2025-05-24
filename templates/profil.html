@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-[60vh] flex items-center justify-center">
+    <div class="max-w-md w-full bg-gradient-to-br from-purple-100 to-blue-100 p-8 rounded-2xl shadow-xl">
+        <div class="flex flex-col items-center mb-6">
+            <div class="bg-gradient-to-r from-purple-500 to-blue-500 p-3 rounded-full mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 15c2.485 0 4.797.657 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800">Profilim</h2>
+        </div>
+        <form method="post" class="space-y-4">
+            <div>
+                <label class="block mb-1 text-gray-700">İsim:</label>
+                <input type="text" name="isim" value="{{ current_user.isim }}" required class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+                <label class="block mb-1 text-gray-700">Email:</label>
+                <input type="email" name="email" value="{{ current_user.email }}" required class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div class="pt-2 pb-1 border-b text-gray-600 font-semibold">Şifre Değiştir</div>
+            <div>
+                <label class="block mb-1 text-gray-700">Mevcut Şifre:</label>
+                <input type="password" name="eski_sifre" class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+                <label class="block mb-1 text-gray-700">Yeni Şifre:</label>
+                <input type="password" name="yeni_sifre" class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <div>
+                <label class="block mb-1 text-gray-700">Yeni Şifre (Tekrar):</label>
+                <input type="password" name="yeni_sifre_tekrar" class="w-full border px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-purple-400">
+            </div>
+            <button type="submit" class="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white py-2 rounded-lg font-semibold shadow hover:scale-105 transition-transform">Kaydet</button>
+        </form>
+    </div>
+</div>
+{% endblock %} 

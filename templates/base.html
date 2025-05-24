@@ -2,38 +2,39 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Araç Kiralama Sistemi{% endblock %}</title>
+    <title>Araç Kiralama</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100">
-    <nav class="bg-blue-600 text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="text-xl font-bold">Araç Kiralama</a>
-            <div class="flex items-center space-x-6">
-                <div class="flex space-x-4">
-                    <a href="/" class="hover:text-blue-200">Ana Sayfa</a>
-                    <a href="/araclar" class="hover:text-blue-200">Araçlar</a>
-                    <a href="/kiralama" class="hover:text-blue-200">Kiralama</a>
-                    <a href="/istatistikler" class="hover:text-blue-200">İstatistikler</a>
-                </div>
-                <div class="flex items-center space-x-4 border-l pl-4">
-                    <a href="/giris" class="hover:text-blue-200">Giriş Yap</a>
-                    <a href="/kayit" class="hover:text-blue-200">Kayıt Ol</a>
-                    <a href="/yonetici-giris" class="hover:text-blue-200">Yönetici Girişi</a>
-                </div>
+<body class="bg-gray-100 text-gray-900">
+    <div class="container mx-auto p-4">
+        <div class="flex justify-between items-center mb-4">
+            <h1 class="text-3xl font-bold"><a href="{{ url_for('index') }}">Araç Kiralama Sitesi</a></h1>
+            <div>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('profil') }}" class="bg-purple-100 text-purple-700 px-3 py-1 rounded hover:bg-purple-200 mr-2">Profilim</a>
+                    {% if current_user.rol == 'admin' %}
+                        <a href="{{ url_for('admin_panel') }}" class="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600 mr-2">Yönetici Paneli</a>
+                    {% endif %}
+                    <span class="mr-2">{{ current_user.isim }} ({{ current_user.rol }})</span>
+                    <a href="{{ url_for('logout') }}" class="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400">Çıkış</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Giriş</a>
+                    <a href="{{ url_for('register') }}" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 ml-2">Kayıt Ol</a>
+                {% endif %}
             </div>
         </div>
-    </nav>
-
-    <main class="container mx-auto p-4">
+        <hr class="mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="mb-4">
+              {% for category, message in messages %}
+                <li class="text-{{ 'red' if category=='danger' else 'green' if category=='success' else 'blue' if category=='info' else 'gray' }}-600">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
-    </main>
-
-    <footer class="bg-gray-800 text-white p-4 mt-8">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2024 Araç Kiralama Sistemi</p>
-        </div>
-    </footer>
+    </div>
 </body>
 </html> 

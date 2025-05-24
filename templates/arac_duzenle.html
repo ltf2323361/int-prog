@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Araç Düzenle</h2>
+<form method="post" enctype="multipart/form-data" class="space-y-4 bg-white p-6 rounded shadow max-w-md">
+    <div>
+        <label class="block mb-1">Marka:</label>
+        <input type="text" name="marka" value="{{ arac.marka }}" required class="w-full border px-2 py-1 rounded">
+    </div>
+    <div>
+        <label class="block mb-1">Model:</label>
+        <input type="text" name="model" value="{{ arac.model }}" required class="w-full border px-2 py-1 rounded">
+    </div>
+    <div>
+        <label class="block mb-1">Fiyat (TL/gün):</label>
+        <input type="number" name="fiyat" value="{{ arac.fiyat }}" required class="w-full border px-2 py-1 rounded">
+    </div>
+    <div>
+        <label class="block mb-1">Mevcut Resim:</label>
+        {% if arac.resim_url %}
+            <img src="{{ arac.resim_url }}" alt="Araç" class="w-32 h-20 object-cover rounded border mb-2">
+        {% else %}
+            <span>Resim yok</span>
+        {% endif %}
+        <input type="file" name="resim" accept="image/*" class="w-full border px-2 py-1 rounded">
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Kaydet</button>
+    <a href="{{ url_for('admin_panel') }}" class="ml-2 text-gray-600 hover:underline">İptal</a>
+</form>
+{% endblock %} 

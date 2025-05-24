@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
+    <h2 class="text-3xl font-bold flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 21m0 0l-1.5-4m1.5 4h6m-6 0h6m0 0l1.5-4m-1.5 4l-.75-4M12 3v4m0 0l-2.25 2.25M12 7l2.25 2.25" /></svg>
+        Yönetici Paneli
+    </h2>
+    <a href="{{ url_for('arac_ekle') }}" class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 text-lg font-semibold hover:scale-105 transition-transform">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+        Araç Ekle
+    </a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-gradient-to-r from-blue-500 to-blue-400 text-white p-6 rounded-xl shadow-lg flex items-center gap-4">
+        <div class="text-4xl"><i class="fa-solid fa-car"></i></div>
+        <div>
+            <div class="text-lg font-bold">Toplam Araç</div>
+            <div class="text-2xl font-extrabold animate-pulse">{{ toplam_arac }}</div>
+        </div>
+    </div>
+    <div class="bg-gradient-to-r from-green-500 to-green-400 text-white p-6 rounded-xl shadow-lg flex items-center gap-4">
+        <div class="text-4xl"><i class="fa-solid fa-users"></i></div>
+        <div>
+            <div class="text-lg font-bold">Toplam Müşteri</div>
+            <div class="text-2xl font-extrabold animate-pulse">{{ toplam_kullanici }}</div>
+        </div>
+    </div>
+    <div class="bg-gradient-to-r from-pink-500 to-pink-400 text-white p-6 rounded-xl shadow-lg flex items-center gap-4">
+        <div class="text-4xl"><i class="fa-solid fa-key"></i></div>
+        <div>
+            <div class="text-lg font-bold">Toplam Kiralama</div>
+            <div class="text-2xl font-extrabold animate-pulse">{{ toplam_kiralama }}</div>
+        </div>
+    </div>
+    <div class="bg-gradient-to-r from-yellow-400 to-yellow-300 text-white p-6 rounded-xl shadow-lg flex items-center gap-4">
+        <div class="text-4xl"><i class="fa-solid fa-coins"></i></div>
+        <div>
+            <div class="text-lg font-bold">Toplam Gelir</div>
+            <div class="text-2xl font-extrabold animate-pulse">{{ toplam_gelir }} TL</div>
+        </div>
+    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+    <div class="bg-gradient-to-r from-indigo-500 to-blue-400 text-white p-6 rounded-xl shadow-lg flex items-center gap-4">
+        <div class="text-3xl"><i class="fa-solid fa-star"></i></div>
+        <div>
+            <div class="text-lg font-bold mb-1">En Çok Kiralanan Araç</div>
+            {% if en_cok_kiralanan %}
+            <div class="font-semibold">{{ en_cok_kiralanan[0] }} {{ en_cok_kiralanan[1] }} <span class="bg-white/20 px-2 py-1 rounded text-xs ml-2">{{ en_cok_kiralanan[2] }} kez</span></div>
+            {% else %}
+            <div>Henüz kiralama yok.</div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="bg-gradient-to-r from-pink-500 to-yellow-400 text-white p-6 rounded-xl shadow-lg flex items-center gap-4">
+        <div class="text-3xl"><i class="fa-solid fa-crown"></i></div>
+        <div>
+            <div class="text-lg font-bold mb-1">En Çok Harcayan Müşteri</div>
+            {% if en_cok_harcayan %}
+            <div class="font-semibold">{{ en_cok_harcayan[0] }} <span class="bg-white/20 px-2 py-1 rounded text-xs ml-2">{{ en_cok_harcayan[2] }} TL</span><br><span class="text-xs">{{ en_cok_harcayan[1] }}</span></div>
+            {% else %}
+            <div>Henüz kiralama yok.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg font-bold mb-4 text-blue-700 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 11V7a4 4 0 118 0v4m-4 4v4m0 0H7a4 4 0 110-8h4" /></svg>
+            Kiralama Dağılımı (Bar)
+        </h3>
+        <canvas id="kiralamaBarChart" height="180"></canvas>
+    </div>
+    <div class="bg-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-lg font-bold mb-4 text-yellow-700 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z" /></svg>
+            Gelir Dağılımı (Pasta)
+        </h3>
+        <canvas id="gelirPieChart" height="180"></canvas>
+    </div>
+</div>
+<div class="mb-8">
+    <h3 class="text-xl font-bold mb-2">Tüm Araçlar</h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded shadow">
+            <thead>
+                <tr class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800">
+                    <th class="py-2 px-4">Resim</th>
+                    <th class="py-2 px-4">Marka</th>
+                    <th class="py-2 px-4">Model</th>
+                    <th class="py-2 px-4">Fiyat</th>
+                    <th class="py-2 px-4">Durum</th>
+                    <th class="py-2 px-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for arac in araclar %}
+                <tr class="hover:bg-blue-50 transition">
+                    <td class="py-2 px-4">{% if arac.resim_url %}<img src="{{ arac.resim_url }}" class="w-20 h-12 object-cover rounded border">{% endif %}</td>
+                    <td class="py-2 px-4">{{ arac.marka }}</td>
+                    <td class="py-2 px-4">{{ arac.model }}</td>
+                    <td class="py-2 px-4">{{ arac.fiyat }} TL</td>
+                    <td class="py-2 px-4">{% if arac.kirada %}<span class="text-red-500 font-bold">Kirada</span>{% else %}<span class="text-green-500 font-bold">Müsait</span>{% endif %}</td>
+                    <td class="py-2 px-4">
+                        <a href="{{ url_for('arac_duzenle', arac_id=arac.id) }}" class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500">Düzenle</a>
+                        <form action="{{ url_for('arac_sil', arac_id=arac.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Aracı silmek istediğinize emin misiniz?');">
+                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="mb-8">
+    <h3 class="text-xl font-bold mb-2">Tüm Kullanıcılar</h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded shadow">
+            <thead>
+                <tr class="bg-gradient-to-r from-green-100 to-green-200 text-green-800">
+                    <th class="py-2 px-4">İsim</th>
+                    <th class="py-2 px-4">Email</th>
+                    <th class="py-2 px-4">Rol</th>
+                    <th class="py-2 px-4">İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for k in kullanicilar %}
+                <tr class="hover:bg-green-50 transition">
+                    <td class="py-2 px-4">{{ k.isim }}</td>
+                    <td class="py-2 px-4">{{ k.email }}</td>
+                    <td class="py-2 px-4">{{ k.rol }}</td>
+                    <td class="py-2 px-4">
+                        <a href="{{ url_for('kullanici_duzenle', user_id=k.id) }}" class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500">Düzenle</a>
+                        <form action="{{ url_for('kullanici_sil', user_id=k.id) }}" method="post" style="display:inline;" onsubmit="return confirm('Kullanıcıyı silmek istediğinize emin misiniz?');">
+                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<div>
+    <h3 class="text-xl font-bold mb-2">Tüm Kiralamalar</h3>
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded shadow">
+            <thead>
+                <tr class="bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800">
+                    <th class="py-2 px-4">Araç</th>
+                    <th class="py-2 px-4">Kullanıcı</th>
+                    <th class="py-2 px-4">Tarih</th>
+                    <th class="py-2 px-4">Gün</th>
+                    <th class="py-2 px-4">Tutar</th>
+                    <th class="py-2 px-4">Durum</th>
+                    <th class="py-2 px-4">Kalan Gün</th>
+                    <th class="py-2 px-4">İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for k in kiralamalar %}
+                <tr class="hover:bg-yellow-50 transition">
+                    <td class="py-2 px-4">{{ k.arac.marka }} {{ k.arac.model }}</td>
+                    <td class="py-2 px-4">{{ k.user.isim }} ({{ k.user.email }})</td>
+                    <td class="py-2 px-4">{{ k.tarih.strftime('%d.%m.%Y %H:%M') }}</td>
+                    <td class="py-2 px-4">{{ k.gun_sayisi }}</td>
+                    <td class="py-2 px-4">{{ k.tutar }} TL</td>
+                    <td class="py-2 px-4">
+                        {% if k.durum == 'beklemede' %}
+                            <span class="inline-block px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-bold">Beklemede</span>
+                        {% elif k.durum == 'onaylandı' %}
+                            <span class="inline-block px-2 py-1 bg-green-100 text-green-600 rounded text-xs font-bold">Onaylandı</span>
+                        {% elif k.durum == 'reddedildi' %}
+                            <span class="inline-block px-2 py-1 bg-red-100 text-red-600 rounded text-xs font-bold">Reddedildi</span>
+                        {% endif %}
+                    </td>
+                    <td class="py-2 px-4">
+                        {% if not k.iptal_edildi and k.bitis_tarihi and k.bitis_tarihi > now() %}
+                            <span class="inline-block px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">{{ (k.bitis_tarihi - now()).days }} gün</span>
+                        {% elif not k.iptal_edildi %}
+                            <span class="inline-block px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">Süre doldu</span>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="py-2 px-4">
+                        {% if k.durum == 'beklemede' %}
+                        <form action="{{ url_for('kiralama_onayla', kiralama_id=k.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-xs">Onayla</button>
+                        </form>
+                        <form action="{{ url_for('kiralama_reddet', kiralama_id=k.id) }}" method="post" style="display:inline;">
+                            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Reddet</button>
+                        </form>
+                        {% else %}-{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr class="my-8">
+<h2 class="text-xl font-bold mb-4">Yorumlar</h2>
+<div class="overflow-x-auto">
+  <table class="min-w-full bg-white rounded shadow">
+    <thead>
+      <tr class="bg-gradient-to-r from-blue-100 to-purple-100">
+        <th class="py-2 px-3 text-left">Kullanıcı</th>
+        <th class="py-2 px-3 text-left">Araç</th>
+        <th class="py-2 px-3 text-left">Puan</th>
+        <th class="py-2 px-3 text-left">Yorum</th>
+        <th class="py-2 px-3 text-left">Tarih</th>
+        <th class="py-2 px-3"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for y in yorumlar %}
+      <tr class="border-b hover:bg-blue-50">
+        <td class="py-2 px-3">{{ y.user.isim }}</td>
+        <td class="py-2 px-3">{{ y.arac.marka }} {{ y.arac.model }}</td>
+        <td class="py-2 px-3"><span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">{{ y.puan }} &#9733;</span></td>
+        <td class="py-2 px-3">{{ y.yorum }}</td>
+        <td class="py-2 px-3 text-xs text-gray-500">{{ y.tarih.strftime('%d.%m.%Y %H:%M') }}</td>
+        <td class="py-2 px-3">
+          <form action="{{ url_for('yorum_sil', yorum_id=y.id) }}" method="post" onsubmit="return confirm('Yorumu silmek istediğinize emin misiniz?');">
+            <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Sil</button>
+          </form>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-center text-gray-400 py-4">Henüz yorum yok.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Bar Chart: Araç başına kiralama sayısı
+const barLabels = {{ bar_labels|tojson }};
+const barData = {{ bar_data|tojson }};
+// Pie Chart: Araç başına toplam gelir
+const pieLabels = barLabels;
+const pieData = {{ pie_data|tojson }};
+new Chart(document.getElementById('kiralamaBarChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: barLabels,
+        datasets: [{
+            label: 'Kiralama Sayısı',
+            data: barData,
+            backgroundColor: 'rgba(59,130,246,0.7)',
+            borderRadius: 8,
+        }]
+    },
+    options: {
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+new Chart(document.getElementById('gelirPieChart').getContext('2d'), {
+    type: 'pie',
+    data: {
+        labels: pieLabels,
+        datasets: [{
+            label: 'Gelir',
+            data: pieData,
+            backgroundColor: [
+                '#6366f1','#f59e42','#10b981','#f43f5e','#fbbf24','#3b82f6','#a21caf','#eab308','#14b8a6','#ef4444'
+            ],
+        }]
+    },
+    options: {
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+</script>
+{% endblock %} 

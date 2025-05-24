@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-4">Kullanıcı Düzenle</h2>
+<form method="post" class="space-y-4 bg-white p-6 rounded shadow max-w-md">
+    <div>
+        <label class="block mb-1">İsim:</label>
+        <input type="text" name="isim" value="{{ user.isim }}" required class="w-full border px-2 py-1 rounded">
+    </div>
+    <div>
+        <label class="block mb-1">Email:</label>
+        <input type="email" name="email" value="{{ user.email }}" required class="w-full border px-2 py-1 rounded">
+    </div>
+    <div>
+        <label class="block mb-1">Rol:</label>
+        <select name="rol" class="w-full border px-2 py-1 rounded">
+            <option value="musteri" {% if user.rol == 'musteri' %}selected{% endif %}>Müşteri</option>
+            <option value="admin" {% if user.rol == 'admin' %}selected{% endif %}>Yönetici</option>
+        </select>
+    </div>
+    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Kaydet</button>
+    <a href="{{ url_for('admin_panel') }}" class="ml-2 text-gray-600 hover:underline">İptal</a>
+</form>
+{% endblock %} 

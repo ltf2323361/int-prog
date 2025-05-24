@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-8">
+    <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-xl shadow-lg flex items-center gap-4 mb-4">
+        <div class="text-4xl"><i class="fa-solid fa-user"></i></div>
+        <div>
+            <div class="text-xl font-bold">Hoşgeldiniz, {{ current_user.isim }}</div>
+            <div class="text-sm">Araçları kiralayabilir ve geçmiş kiralamalarınızı görebilirsiniz.</div>
+        </div>
+    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div>
+        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 13l2-2m0 0l7-7 7 7M13 5v6h6" /></svg>
+            Tüm Araçlar
+        </h3>
+        <form method="get" class="mb-4 grid grid-cols-1 md:grid-cols-4 gap-2 items-end">
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Marka/Model</label>
+                <input type="text" name="q" value="{{ request.args.get('q', '') }}" placeholder="Ara..." class="w-full border px-2 py-1 rounded">
+            </div>
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Fiyat (min)</label>
+                <input type="number" name="fmin" value="{{ request.args.get('fmin', '') }}" min="0" class="w-full border px-2 py-1 rounded">
+            </div>
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Fiyat (max)</label>
+                <input type="number" name="fmax" value="{{ request.args.get('fmax', '') }}" min="0" class="w-full border px-2 py-1 rounded">
+            </div>
+            <div>
+                <label class="block text-xs text-gray-600 mb-1">Durum</label>
+                <select name="durum" class="w-full border px-2 py-1 rounded">
+                    <option value="">Hepsi</option>
+                    <option value="müsait" {% if request.args.get('durum') == 'müsait' %}selected{% endif %}>Müsait</option>
+                    <option value="kirada" {% if request.args.get('durum') == 'kirada' %}selected{% endif %}>Kirada</option>
+                </select>
+            </div>
+            <div class="md:col-span-4 flex gap-2 mt-2">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Filtrele</button>
+                <a href="{{ url_for('panel') }}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">Temizle</a>
+            </div>
+        </form>
+        <div class="grid grid-cols-1 gap-4">
+            {% for arac in araclar %}
+            <div class="bg-white p-4 rounded-xl shadow flex items-center gap-4">
+                {% if arac.resim_url %}
+                    <img src="{{ arac.resim_url }}" alt="Araç" class="w-24 h-16 object-cover rounded border">
+                {% endif %}
+                <div class="flex-1">
+                    <div class="font-semibold text-lg">{{ arac.marka }} {{ arac.model }}</div>
+                    <div class="text-gray-500">{{ arac.fiyat }} TL/gün</div>
+                    {% if arac.kirada %}
+                        <span class="inline-block mt-1 px-2 py-1 bg-red-100 text-red-600 rounded text-xs font-bold">Kirada</span>
+                    {% else %}
+                        <span class="inline-block mt-1 px-2 py-1 bg-green-100 text-green-600 rounded text-xs font-bold">Müsait</span>
+                    {% endif %}
+                </div>
+                {% if current_user.is_authenticated and current_user.rol == 'musteri' %}
+                <button type="button" id="favori-btn" class="favori-btn ml-2 px-2 py-1 rounded-full border transition flex items-center gap-1 text-xs"
+                    data-arac-id="{{ arac.id }}"
+                    data-favori="{{ arac.favori_kullanicilar|selectattr('user_id', 'equalto', current_user.id)|list|length > 0 }}">
+                    <span class="favori-ikon">{% if arac.favori_kullanicilar|selectattr('user_id', 'equalto', current_user.id)|list|length > 0 %}<i class="fa-solid fa-heart text-red-500"></i>{% else %}<i class="fa-regular fa-heart text-gray-400"></i>{% endif %}</span>
+                    <span class="favori-yazi">{% if arac.favori_kullanicilar|selectattr('user_id', 'equalto', current_user.id)|list|length > 0 %}Favoride{% else %}Favorile{% endif %}</span>
+                </button>
+                {% endif %}
+                {% if not arac.kirada %}
+                    <a href="{{ url_for('kirala', arac_id=arac.id) }}" class="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 py-2 rounded-lg shadow hover:scale-105 transition-transform flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4 4 4-4m0-5V3" /></svg>
+                        Kirala
+                    </a>
+                {% endif %}
+                <a href="{{ url_for('arac_detay', arac_id=arac.id) }}" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded hover:scale-105 transition-transform text-xs ml-2">Detay</a>
+            </div>
+            {% else %}
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-yellow-700">Aradığınız kritere uygun araç bulunamadı.</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2a4 4 0 014-4h3m4 0v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6a2 2 0 012-2h3" /></svg>
+            Kiralama Geçmişiniz
+        </h3>
+        <div class="space-y-4">
+            {% for k in kiralamalar %}
+            <div class="bg-gradient-to-r from-blue-100 to-purple-100 p-4 rounded-xl shadow flex items-center gap-4">
+                <div class="flex-shrink-0">
+                    {% if k.arac.resim_url %}
+                        <img src="{{ k.arac.resim_url }}" alt="Araç" class="w-24 h-16 object-cover rounded border">
+                    {% else %}
+                        <img src="https://placehold.co/80x50?text=Arac" alt="Araç" class="rounded border">
+                    {% endif %}
+                </div>
+                <div class="flex-1">
+                    <div class="font-semibold text-lg">{{ k.arac.marka }} {{ k.arac.model }}</div>
+                    <div class="text-gray-600 text-sm">Kiralama Tarihi: {{ k.tarih.strftime('%d.%m.%Y %H:%M') }}</div>
+                    <div class="text-gray-700 mt-1">Tutar: <span class="font-bold">{{ k.tutar }} TL</span></div>
+                    <div class="text-gray-700 mt-1">Kaç Gün: <span class="font-bold">{{ k.gun_sayisi }}</span></div>
+                    {% if k.durum == 'beklemede' %}
+                        <span class="inline-block mt-1 px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs font-bold">Beklemede</span>
+                    {% elif k.durum == 'onaylandı' %}
+                        <span class="inline-block mt-1 px-2 py-1 bg-green-100 text-green-600 rounded text-xs font-bold">Onaylandı</span>
+                        {% set kalan = ((k.bitis_tarihi - now()).days if k.bitis_tarihi and k.bitis_tarihi > now() else 0) %}
+                        <span class="inline-block ml-2 px-2 py-1 bg-blue-100 text-blue-600 rounded text-xs">Kalan gün: {{ kalan }}</span>
+                        {% if not k.iptal_edildi and k.bitis_tarihi and k.bitis_tarihi > now() %}
+                        <form action="{{ url_for('kiralama_iptal', kiralama_id=k.id) }}" method="post" class="inline">
+                            <button type="submit" class="ml-2 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs" onclick="return confirm('Kiralama iptal edilsin mi?');">İptal Et</button>
+                        </form>
+                        {% elif k.iptal_edildi %}
+                        <span class="inline-block ml-2 px-2 py-1 bg-gray-200 text-gray-500 rounded text-xs font-bold">İptal Edildi</span>
+                        {% endif %}
+                    {% elif k.durum == 'reddedildi' %}
+                        <span class="inline-block mt-1 px-2 py-1 bg-red-100 text-red-600 rounded text-xs font-bold">Reddedildi</span>
+                    {% endif %}
+                    <a href="{{ url_for('arac_detay', arac_id=k.arac.id) }}" class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded hover:scale-105 transition-transform text-xs ml-2">Detay</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded text-yellow-700">
+                Henüz hiç araç kiralamadınız. Araç listesinden bir araç kiralayabilirsiniz.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.favori-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const aracId = this.dataset.aracId;
+                const favori = this.dataset.favori === 'true';
+                const url = favori ? `/favori_cikar/${aracId}` : `/favori_ekle/${aracId}`;
+                fetch(url, {method: 'POST', headers: {'X-Requested-With': 'XMLHttpRequest'}})
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.dataset.favori = (!favori).toString();
+                            this.querySelector('.favori-ikon').innerHTML = favori ? '<i class="fa-regular fa-heart text-gray-400"></i>' : '<i class="fa-solid fa-heart text-red-500"></i>';
+                            this.querySelector('.favori-yazi').textContent = favori ? 'Favorile' : 'Favoride';
+                        } else {
+                            alert(data.message || 'İşlem başarısız.');
+                        }
+                    })
+                    .catch(() => alert('Sunucu hatası!'));
+            });
+        });
+    });
+    </script> 
+{% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('#favori-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                alert('Butona tıklandı!'); // Sadece test için
+            });
+        });
+    });
+    </script>

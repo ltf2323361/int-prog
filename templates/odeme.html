@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">Ödeme Yap</h2>
+    <p class="mb-2">Araç: <b>{{ arac.marka }} {{ arac.model }}</b></p>
+    <p class="mb-4">Kiralama Bedeli: <b id="gunlukFiyat">{{ arac.fiyat }} TL/gün</b></p>
+    <form method="post" class="space-y-4" id="odemeForm">
+        <div>
+            <label class="block mb-1">Kaç gün kiralayacaksınız?</label>
+            <input type="number" name="gun_sayisi" id="gun_sayisi" min="1" value="1" required class="w-full border px-2 py-1 rounded">
+        </div>
+        <div>
+            <label class="block mb-1">Kart Numarası:</label>
+            <input type="text" name="kart_no" maxlength="16" required class="w-full border px-2 py-1 rounded">
+        </div>
+        <div>
+            <label class="block mb-1">Kart Üzerindeki İsim:</label>
+            <input type="text" name="isim" required class="w-full border px-2 py-1 rounded">
+        </div>
+        <div class="flex space-x-2">
+            <div>
+                <label class="block mb-1">Son Kullanma:</label>
+                <input type="text" name="son_kullanma" placeholder="AA/YY" maxlength="5" required class="w-full border px-2 py-1 rounded">
+            </div>
+            <div>
+                <label class="block mb-1">CVV:</label>
+                <input type="text" name="cvv" maxlength="3" required class="w-full border px-2 py-1 rounded">
+            </div>
+        </div>
+        <div class="mb-2 text-right text-lg">
+            Toplam Tutar: <span id="toplamTutar">{{ arac.fiyat }}</span> TL
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Ödemeyi Tamamla ve Kirala</button>
+    </form>
+</div>
+<script>
+const fiyat = {{ arac.fiyat }};
+const gunInput = document.getElementById('gun_sayisi');
+const toplamTutar = document.getElementById('toplamTutar');
+gunInput.addEventListener('input', function() {
+    let gun = parseInt(gunInput.value) || 1;
+    toplamTutar.textContent = fiyat * gun;
+});
+</script>
+{% endblock %} 
