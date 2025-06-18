@@ -1,43 +1,100 @@
-# Araç Kiralama Takip Sistemi
+# Araç Kiralama Takip Sistemi Rapor
 
-Bu proje, internet programcılığı dersi için geliştirilmiş basit bir araç kiralama web uygulamasıdır.
+## Öğrenci Bilgileri
+- **Ad:** Lütfullah
+- **Soyad:** Kaya
+- **Sınıf:** Bilgisayar Programcılığı 2. Sınıf
+- **Ders:** İnternet Programcılığı Final Ödevi
+- **GitHub:** https://github.com/ltf2323361/int-prog/
+
+## Proje Özeti
+Bu proje, modern web teknolojileri kullanılarak geliştirilmiş kapsamlı bir araç kiralama yönetim sistemidir. Sistem, kullanıcı dostu bir arayüz ile araç kiralama işlemlerini kolaylaştırmayı hedeflemektedir.
 
 ## Kullanılan Teknolojiler
-- Flask (Python web framework)
-- Tailwind CSS (Tasarım için)
-- HTML5
-- JavaScript
 
-## Proje Özellikleri
-- Müşteri ve yönetici girişi
-- Araç listesi görüntüleme
-- Araç kiralama işlemleri
-- Basit istatistikler
+### Backend
+- **Flask Framework:** Web uygulaması için ana framework
+- **SQLAlchemy:** Veritabanı işlemleri için ORM
+- **Flask-Login:** Kullanıcı kimlik doğrulama ve oturum yönetimi
 
-## Kurulum
-1. Gerekli paketleri yükleyin:
-```bash
-pip install flask
+### Frontend
+- **Tailwind CSS:** Modern ve responsive tasarım
+- **Font Awesome:** İkonlar için
+- **HTML5:** Sayfa yapısı
+
+## Veritabanı Yapısı
+
+### Tablolar
+1. **User (Kullanıcı)**
+   - Kullanıcı bilgileri (id, isim, email, şifre)
+   - Rol bazlı yetkilendirme (admin/müşteri)
+
+2. **Arac**
+   - Araç detayları (marka, model, fiyat)
+   - Kiralama durumu takibi
+   - Resim URL desteği
+
+3. **Kiralama**
+   - Kiralama işlem kayıtları
+   - Tarih ve süre bilgileri
+   - Ödeme tutarı
+   - Durum takibi (beklemede/onaylandı/reddedildi)
+
+4. **Yorum**
+   - Kullanıcı yorumları
+   - Puanlama sistemi
+   - Tarih bilgisi
+
+5. **Favori**
+   - Kullanıcıların favori araçları
+
+## Özellikler
+
+### Kullanıcı Yönetimi
+- Kayıt ve giriş sistemi
+- Rol bazlı yetkilendirme (Admin/Müşteri)
+- Profil yönetimi
+
+### Araç Yönetimi
+- Araç ekleme/düzenleme (Admin)
+- Araç listeleme ve detay görüntüleme
+- Araç resmi yükleme desteği
+
+### Kiralama Sistemi
+- Online kiralama işlemleri
+- Ödeme sistemi entegrasyonu
+- Kiralama durumu takibi
+
+### Yorum ve Değerlendirme
+- Araç puanlama sistemi
+- Kullanıcı yorumları
+- Ortalama puan hesaplama
+
+### Arayüz Özellikleri
+- Responsive tasarım
+- Kullanıcı dostu navigasyon
+- Flash mesajları ile bilgilendirme
+- Dinamik içerik yönetimi
+
+## Güvenlik Özellikleri
+- Şifre hashleme
+- Oturum yönetimi
+- Yetkilendirme kontrolleri
+- Güvenli dosya yükleme
+
+## Teknik Detaylar
+- SQLite veritabanı kullanımı
+- Modüler kod yapısı
+- Template inheritance
+- RESTful yapı
+
+## Geliştirme Ortamı
+Proje için gerekli paketler:
+```
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.5
+Flask-Login==0.6.3
 ```
 
-2. Uygulamayı çalıştırın:
-```bash
-python app.py
-```
-
-3. Tarayıcıda http://localhost:5000 adresine gidin.
-
-## Proje Yapısı
-- `app.py`: Ana uygulama dosyası
-- `templates/`: HTML şablonları
-- `static/`: CSS ve JavaScript dosyaları
-
-## Sayfalar
-- Ana Sayfa
-- Giriş/Kayıt Sayfaları
-- Araç Listesi
-- Kiralama Sayfası
-- İstatistikler Sayfası
-https://github.com/ltf2323361/int prog
-## Not
-Bu proje, internet programcılığı dersi kapsamında geliştirilmiş basit bir web uygulamasıdır. Veritabanı bağlantısı olmadan çalışan bir prototip olarak tasarlanmıştır. 
+## Sonuç
+Bu proje, modern web teknolojilerini kullanarak geliştirilmiş, güvenli ve kullanıcı dostu bir araç kiralama sistemidir. Rol bazlı yetkilendirme, detaylı araç yönetimi, kiralama takibi ve kullanıcı etkileşimi gibi özellikler ile tam kapsamlı bir çözüm sunmaktadır.

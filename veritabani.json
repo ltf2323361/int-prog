@@ -1,0 +1,49 @@
+{
+    "user": [
+        {
+            "id": 1,
+            "isim": "Hüseyin Tunç",
+            "email": "huseyint428@gmail.com",
+            "sifre": "pbkdf2:sha256:260000$UJNMk9XOhXSlP1VL$b19c3c3639c57897eaa235b5ce24c69cdb6c3900ed854457411965af2871dad6",
+            "rol": "admin"
+        },
+        {
+            "id": 2,
+            "isim": "Lütfullah Kaya",
+            "email": "2311081001@ogr.gumushane.edu.tr",
+            "sifre": "pbkdf2:sha256:260000$70zu0UiQTXPiIp1w$04b07382de5279fb0687d5bd87cd8afa6182570d85bd49c69bfe8230f9f9af57",
+            "rol": "musteri"
+        }
+    ],
+    "arac": [
+        {
+            "id": 1,
+            "marka": "BMW",
+            "model": "320İ",
+            "fiyat": 5600,
+            "kirada": 0,
+            "resim_url": "/static/uploads/BMW-320i-Sedan-1-e1578077613891.jpeg"
+        }
+    ],
+    "kiralama": [
+        {
+            "id": 1,
+            "user_id": 2,
+            "arac_id": 1,
+            "tarih": "2025-05-24 07:15:53.188756",
+            "bitis_tarihi": "2025-05-26 07:15:53.186751",
+            "tutar": 11200,
+            "gun_sayisi": 2,
+            "iptal_edildi": 1,
+            "durum": "onaylandı"
+        }
+    ],
+    "yorum": [],
+    "favori": [
+        {
+            "id": 1,
+            "user_id": 2,
+            "arac_id": 1
+        }
+    ]
+}

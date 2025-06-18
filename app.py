@@ -464,6 +464,5 @@ def favori_cikar(arac_id):
 def favori_mi(user_id, arac_id):
     return Favori.query.filter_by(user_id=user_id, arac_id=arac_id).first() is not None
 
-import os
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+    app.run(debug=True) 
